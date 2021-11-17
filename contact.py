@@ -9,13 +9,11 @@ file = "main.csv"
 df = open(file, 'r')
 df1 = csv.reader(df)
 
-
 if not df1:
     with open(file, 'w+') as csvfile:
         csvwriter = csv.writer(csvfile)
         
         csvwriter.writerow(fields)
-
 
 
 def create():
@@ -37,9 +35,7 @@ def create():
     cont.append(email)
     cont.append(dob)
     cont.append(address)
-
     print("\nContact is created successfully!")
-    
     with open(file, "w+", newline='') as data:
         w = csv.writer(data)
         if nrec:
@@ -47,6 +43,7 @@ def create():
         w.writerow(cont)
         f.close()
         data.close()
+
 
 def search():
     print(
@@ -69,11 +66,9 @@ def search():
         email = input("Enter email address: ")
     else:
         return
-    
     f = open(file, 'r', newline='\n')
     r = csv.reader(f)
     result = []
-    
     if name:
         print("Search result for " + name + ": ")
         for rec in r:
@@ -97,14 +92,12 @@ def search():
         print("No contacts found.. !.")
     f.close()
 
+
 def delete(name = "", number="", email=""):
-    
     nrec = []
     result = []
     f = open("main.csv", 'r', newline='\n')
     r = csv.reader(f)
-    
-    
     if name:
         for rec in r:
             sea = rec[0].lower()
@@ -123,15 +116,12 @@ def delete(name = "", number="", email=""):
     f.close()
     if not result:
         print("No contact found !")
-        return
-        
+        return   
     if len(result) == 1:
         print("Are you sure! You want to delete " + result[0][0] +" (y/n): ")
         ch = input().lower()
         if(ch != 'y'):
-            return
-        
-        
+            return  
         fil = open(file, 'r', newline='\n')
         rea = csv.reader(fil)
         for rec in rea:
@@ -140,8 +130,7 @@ def delete(name = "", number="", email=""):
                 continue;
             nrec.append(rec)
         print(nrec)
-        fil.close()
-            
+        fil.close()   
         with open(file, "w+", newline='') as data:
             w = csv.writer(data)
             w.writerows(nrec)
@@ -174,12 +163,10 @@ def delete_contact():
         delete(email=email)
 
 def update(name = "", number=""):
-    
     nrec = []
     result = []
     f = open("main.csv", 'r', newline='\n')
     r = csv.reader(f)
-    
     if name:
         for rec in r:
             sea = rec[0].lower()
@@ -193,14 +180,12 @@ def update(name = "", number=""):
     f.close()
     if not result:
         print("No contact found !")
-        return
-        
+        return   
     if len(result) == 1:
         print("Are you sure! You want to update " + result[0][0] +" (y/n): ")
         ch = input().lower()
         if(ch != 'y'):
             return
-        
         fil = open(file, 'r', newline='\n')
         rea = csv.reader(fil)
         for rec in rea:
@@ -230,8 +215,7 @@ def update(name = "", number=""):
                     rec[4] = input("Enter correct address")
             nrec.append(rec)
         print(nrec)
-        fil.close()
-            
+        fil.close()   
         with open(file, "w+", newline='') as data:
             w = csv.writer(data)
             w.writerows(nrec)
@@ -241,6 +225,7 @@ def update(name = "", number=""):
         print(result)
         n = input("Enter name: ")
         update(name=n)
+
 
 def update_contact():
     print(
@@ -258,6 +243,7 @@ def update_contact():
         number = input("Enter number: ")
         update(number=number)
 
+
 def show():
     f = open(file, 'r', newline='\n')
     r = csv.reader(f)
@@ -267,6 +253,8 @@ def show():
         print(rec)
     if c==1:
         print("\nNo contacts listed")
+
+
 
 menu = '''
          CONTACT BOOK
@@ -279,8 +267,8 @@ menu = '''
           6.Exit
 '''
 
+
 if __name__ == "__main__":
-#     c = Contact()
     a = True
     while a:
         print('\n', menu, '\n')
