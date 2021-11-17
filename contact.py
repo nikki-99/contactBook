@@ -6,10 +6,15 @@ file = "main.csv"
 fields = ['Name', 'Number', 'Email', 'DOB', 'Address']
 file = "main.csv"
 
-with open(file, 'w+') as csvfile:
-    csvwriter = csv.writer(csvfile)
-    
-    csvwriter.writerow(fields)
+df = open(file, 'r')
+df1 = csv.reader(df)
+
+
+if not df1:
+    with open(file, 'w+') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        
+        csvwriter.writerow(fields)
 
 
 
@@ -174,14 +179,33 @@ def update(name = "", number=""):
         if(ch != 'y'):
             return
         
-        print("Enter name: ")
-        nm = input()
         fil = open(file, 'r', newline='\n')
         rea = csv.reader(fil)
         for rec in rea:
 #             print(rec)
             if rec[0] == result[0][0]:
-                continue;
+                print("do you want to update name:(y/n) " + rec[0] )
+                inp = input().lower()
+                if(inp == 'y'):
+                    rec[0] = input("enter correct name: ")
+                print("do you want to update number:(y/n) " + rec[1] )
+                inp = input().lower()
+                if(inp == 'y'):
+                    rec[1] = input("enter correct number: ")
+                print("do you want to update email:(y/n) " + rec[2] )
+                inp = input().lower()
+                if(inp == 'y'):
+                    rec[2] = input("enter correct email")
+                print("do you want to update DOB:(y/n) " + rec[3] )
+                inp = input().lower()
+                if(inp == 'y'):
+                    date_entry = input('Enter a date in YYYY-MM-DD format: ')
+                    year, month, day = map(int, date_entry.split('-'))
+                    rec[3] = datetime.date(year, month, day)
+                print("do you want to update address:(y/n) " + rec[4] )
+                inp = input().lower()
+                if(inp == 'y'):
+                    rec[4] = input("enter correct address")
             nrec.append(rec)
         print(nrec)
         fil.close()
@@ -215,10 +239,10 @@ def update_contact():
 def show():
     f = open(file, 'r', newline='\n')
     r = csv.reader(f)
-    l = len(list(r))
-    if l==1:
-        print("No contacts listed")
-        return
+    # l = len(list(r))
+    # if l==1:
+    #     print("No contacts listed")
+    #     return
     for rec in r:
         print(rec)
 
