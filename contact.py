@@ -37,6 +37,8 @@ def create():
     cont.append(email)
     cont.append(dob)
     cont.append(address)
+
+    print("\nContact is created successfully!")
     
     with open(file, "w+", newline='') as data:
         w = csv.writer(data)
@@ -51,16 +53,20 @@ def search():
        '''
        1. Search through name
        2. Search through number
-       3. Exit
+       3. Search through email
+       4. Exit
        '''
     )
     ch = int(input("Enter choice: "))
     name = ""
     number = ""
+    email = ""
     if ch == 1:
         name = input("Enter name: ").lower()
     elif ch == 2:
         number = input("Enter number: ")
+    elif ch == 3:
+        email = input("Enter email address: ")
     else:
         return
     
@@ -69,23 +75,29 @@ def search():
     result = []
     
     if name:
-        print("search result for " + name + ": ")
+        print("Search result for " + name + ": ")
         for rec in r:
             sea = rec[0].lower()
             if sea.find(name, 0, len(sea)) != -1:
                 result.append(rec)
     if number:
-        print("search result for " + number + ": ")
+        print("Search result for " + number + ": ")
         for rec in r:
             if rec[1].find(number, 0, len(rec[1])) != -1:
+                result.append(rec)
+
+    if email:
+        print("Search result for " + email + ": ")
+        for rec in r:
+            if rec[2].find(email, 0, len(rec[2])) != -1:
                 result.append(rec)
     if result:
         print(result)
     else:
-        print("No contact found.. !.")
+        print("No contacts found.. !.")
     f.close()
 
-def delete(name = "", number=""):
+def delete(name = "", number="", email=""):
     
     nrec = []
     result = []
@@ -103,13 +115,18 @@ def delete(name = "", number=""):
             if rec[1].find(number, 0, len(rec[1])) != -1:
                 result.append(rec)
     
+    if email:
+         for rec in r:
+            if rec[2].find(email, 0, len(rec[2])) != -1:
+                result.append(rec)
+    
     f.close()
     if not result:
         print("No contact found !")
         return
         
     if len(result) == 1:
-        print("are you sure want to delete " + result[0][0] +" (y/n): ")
+        print("Are you sure! You want to delete " + result[0][0] +" (y/n): ")
         ch = input().lower()
         if(ch != 'y'):
             return
@@ -130,17 +147,19 @@ def delete(name = "", number=""):
             w.writerows(nrec)
             data.close()
     else:
-        print("more than 1 contact found, which one you want to delete ?")
+        print("More than 1 contact found, which one you want to delete ?")
         print(result)
         n = input("Enter name: ")
         delete(name=n)
 
+
 def delete_contact():
     print(
        '''
-       1. delete through name
-       2. delete through number
-       3. Exit
+       1. Delete through name
+       2. Delete through number
+       3. Delete through email
+       4. Exit
        '''
     )
     ch = int(input("Enter choice: "))
@@ -150,6 +169,9 @@ def delete_contact():
     elif ch == 2:
         number = input("Enter number: ")
         delete(number=number)
+    elif ch == 3:
+        email = input("Enter email address: ")
+        delete(email=email)
 
 def update(name = "", number=""):
     
@@ -174,7 +196,7 @@ def update(name = "", number=""):
         return
         
     if len(result) == 1:
-        print("are you sure want to update " + result[0][0] +" (y/n): ")
+        print("Are you sure! You want to update " + result[0][0] +" (y/n): ")
         ch = input().lower()
         if(ch != 'y'):
             return
@@ -184,28 +206,28 @@ def update(name = "", number=""):
         for rec in rea:
 #             print(rec)
             if rec[0] == result[0][0]:
-                print("do you want to update name:(y/n) " + rec[0] )
+                print("Do you want to update name:(y/n) " + rec[0] )
                 inp = input().lower()
                 if(inp == 'y'):
-                    rec[0] = input("enter correct name: ")
-                print("do you want to update number:(y/n) " + rec[1] )
+                    rec[0] = input("Enter correct name: ")
+                print("Do you want to update number:(y/n) " + rec[1] )
                 inp = input().lower()
                 if(inp == 'y'):
-                    rec[1] = input("enter correct number: ")
-                print("do you want to update email:(y/n) " + rec[2] )
+                    rec[1] = input("Enter correct number: ")
+                print("Do you want to update email:(y/n) " + rec[2] )
                 inp = input().lower()
                 if(inp == 'y'):
-                    rec[2] = input("enter correct email")
-                print("do you want to update DOB:(y/n) " + rec[3] )
+                    rec[2] = input("Enter correct email")
+                print("Do you want to update DOB:(y/n) " + rec[3] )
                 inp = input().lower()
                 if(inp == 'y'):
                     date_entry = input('Enter a date in YYYY-MM-DD format: ')
                     year, month, day = map(int, date_entry.split('-'))
                     rec[3] = datetime.date(year, month, day)
-                print("do you want to update address:(y/n) " + rec[4] )
+                print("Do you want to update address:(y/n) " + rec[4] )
                 inp = input().lower()
                 if(inp == 'y'):
-                    rec[4] = input("enter correct address")
+                    rec[4] = input("Enter correct address")
             nrec.append(rec)
         print(nrec)
         fil.close()
@@ -215,7 +237,7 @@ def update(name = "", number=""):
             w.writerows(nrec)
             data.close()
     else:
-        print("more than 1 contact found, which one you want to delete ?")
+        print("More than 1 contact found, which one you want to delete ?")
         print(result)
         n = input("Enter name: ")
         update(name=n)
@@ -223,8 +245,8 @@ def update(name = "", number=""):
 def update_contact():
     print(
        '''
-       1. update through name
-       2. update through number
+       1. Update through name
+       2. Update through number
        3. Exit
        '''
     )
@@ -239,12 +261,12 @@ def update_contact():
 def show():
     f = open(file, 'r', newline='\n')
     r = csv.reader(f)
-    # l = len(list(r))
-    # if l==1:
-    #     print("No contacts listed")
-    #     return
+    c=0
     for rec in r:
+        c+=1
         print(rec)
+    if c==1:
+        print("\nNo contacts listed")
 
 menu = '''
          CONTACT BOOK
