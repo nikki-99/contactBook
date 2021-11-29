@@ -93,6 +93,8 @@ def search():
     f.close()
 
 
+
+
 def delete(name = "", number="", email=""):
     nrec = []
     result = []
@@ -142,6 +144,7 @@ def delete(name = "", number="", email=""):
         delete(name=n)
 
 
+
 def delete_contact():
     print(
        '''
@@ -161,6 +164,8 @@ def delete_contact():
     elif ch == 3:
         email = input("Enter email address: ")
         delete(email=email)
+
+
 
 def update(name = "", number=""):
     nrec = []
@@ -227,6 +232,7 @@ def update(name = "", number=""):
         update(name=n)
 
 
+
 def update_contact():
     print(
        '''
@@ -242,6 +248,7 @@ def update_contact():
     elif ch == 2:
         number = input("Enter number: ")
         update(number=number)
+
 
 
 def show():
